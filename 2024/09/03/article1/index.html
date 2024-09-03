@@ -1,0 +1,757 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="en">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="前言以前学习 Next.js 可能是听说了 Next.js 一个框架就可以实现 CSR、SSR、SSG、ISR 这些功能，但在 Next.js v13 之后，Next.js 推出了基于 React Server Component 的 App Router。 SSR、SSG 等名词也在最新的文档中被弱化、少有提及（这些功能当然还在的），但理解这些名词背后的原理和区别，依然有助于我们理解和使用 Ne">
+<meta property="og:type" content="article">
+<meta property="og:title" content="article1">
+<meta property="og:url" content="http://example.com/2024/09/03/article1/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="前言以前学习 Next.js 可能是听说了 Next.js 一个框架就可以实现 CSR、SSR、SSG、ISR 这些功能，但在 Next.js v13 之后，Next.js 推出了基于 React Server Component 的 App Router。 SSR、SSG 等名词也在最新的文档中被弱化、少有提及（这些功能当然还在的），但理解这些名词背后的原理和区别，依然有助于我们理解和使用 Ne">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/0cac714341954b49a46dbf336da6e0ab~tplv-k3u1fbpfcp-jj-mark:0:0:0:0:q75.image#?w=750&h=108&s=19401&e=png&b=202124">
+<meta property="og:image" content="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/6dfd817e4b444a089889031ced76257f~tplv-k3u1fbpfcp-jj-mark:0:0:0:0:q75.image#?w=1332&h=140&s=46266&e=png&b=202124">
+<meta property="og:image" content="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/ecc132bc3e7e4fe4a98608218746599a~tplv-k3u1fbpfcp-jj-mark:0:0:0:0:q75.image#?w=1226&h=202&s=34404&e=png&b=fefefe">
+<meta property="og:image" content="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/3892d6c273e74e4191ba1619f171036b~tplv-k3u1fbpfcp-jj-mark:0:0:0:0:q75.image#?w=2108&h=114&s=41646&e=png&b=202124">
+<meta property="og:image" content="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/837825bf2e9c4d70a4d8abb86b842fea~tplv-k3u1fbpfcp-jj-mark:0:0:0:0:q75.image#?w=306\&h=480\&s=30167\&e=png\&b=252526">
+<meta property="og:image" content="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/26964dd0d6c14517abe5aa90fca2bba6~tplv-k3u1fbpfcp-jj-mark:0:0:0:0:q75.image#?w=1434&h=1464&s=1406805&e=gif&f=226&b=fcfcfc">
+<meta property="og:image" content="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/ff96d135af07484eaff5c670633bf808~tplv-k3u1fbpfcp-jj-mark:0:0:0:0:q75.image#?w=665&h=178&s=83852&e=gif&f=70&b=fcfcfc">
+<meta property="article:published_time" content="2024-09-03T05:53:23.000Z">
+<meta property="article:modified_time" content="2024-09-03T05:55:04.719Z">
+<meta property="article:author" content="John Doe">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/0cac714341954b49a46dbf336da6e0ab~tplv-k3u1fbpfcp-jj-mark:0:0:0:0:q75.image#?w=750&h=108&s=19401&e=png&b=202124">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '',
+    scheme: 'Muse',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://example.com/2024/09/03/article1/"/>
+
+
+
+
+
+  <title>article1 | Hexo</title>
+  
+
+
+
+
+
+
+
+
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="en">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Hexo</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/%20" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/%20" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            Archives
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2024/09/03/article1/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">article1</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2024-09-03T13:53:23+08:00">
+                2024-09-03
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>以前学习 Next.js 可能是听说了 Next.js 一个框架就可以实现 CSR、SSR、SSG、ISR 这些功能，但在 Next.js v13 之后，Next.js 推出了基于 React Server Component 的 App Router。</p>
+<p>SSR、SSG 等名词也在最新的文档中被弱化、少有提及（这些功能当然还在的），但理解这些名词背后的原理和区别，依然有助于我们理解和使用 Next.js。</p>
+<h2 id="1-CSR"><a href="#1-CSR" class="headerlink" title="1. CSR"></a>1. CSR</h2><h3 id="1-1-概念介绍"><a href="#1-1-概念介绍" class="headerlink" title="1.1. 概念介绍"></a>1.1. 概念介绍</h3><p>我们先从传统的 CSR 开始说起。</p>
+<p><strong>CSR，英文全称“Client-side Rendering”，中文翻译“客户端渲染”。顾名思义，渲染工作主要在客户端执行。</strong></p>
+<p>像我们传统使用 React 的方式，就是客户端渲染。浏览器会先下载一个非常小的 HTML 文件和所需的 JavaScript 文件。在 JavaScript 中执行发送请求、获取数据、更新 DOM 和渲染页面等操作。</p>
+<p>这样做最大的问题就是不够快。（SEO 问题是其次，现在的爬虫已经普遍能够支持 CSR 渲染的页面）</p>
+<p>在下载、解析、执行 JavaScript 以及请求数据没有返回前，页面不会完全呈现。</p>
+<h3 id="1-2-Next-js-实现-CSR"><a href="#1-2-Next-js-实现-CSR" class="headerlink" title="1.2. Next.js 实现 CSR"></a>1.2. Next.js 实现 CSR</h3><p>Next.js 支持 CSR，在 Next.js Pages Router 下有两种方式实现客户端渲染。</p>
+<p>一种是在页面中使用 React <code>useEffect</code> hook，而不是服务端的渲染方法（比如 <code>getStaticProps</code>和 <code>getServerSideProps</code>，这两个方法后面会讲到），举个例子：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// pages/csr.js</span></span><br><span class="line"><span class="keyword">import</span> <span class="title class_">React</span>, &#123; useState, useEffect &#125; <span class="keyword">from</span> <span class="string">&quot;react&quot;</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> <span class="keyword">function</span> <span class="title function_">Page</span>(<span class="params"></span>) &#123;</span><br><span class="line">  <span class="keyword">const</span> [data, setData] = <span class="title function_">useState</span>(<span class="literal">null</span>);</span><br><span class="line"></span><br><span class="line">  <span class="title function_">useEffect</span>(<span class="function">() =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">const</span> <span class="title function_">fetchData</span> = <span class="keyword">async</span> (<span class="params"></span>) =&gt; &#123;</span><br><span class="line">      <span class="keyword">const</span> response = <span class="keyword">await</span> <span class="title function_">fetch</span>(</span><br><span class="line">        <span class="string">&quot;https://jsonplaceholder.typicode.com/todos/1&quot;</span></span><br><span class="line">      );</span><br><span class="line">      <span class="keyword">if</span> (!response.<span class="property">ok</span>) &#123;</span><br><span class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> <span class="title class_">Error</span>(<span class="string">`HTTP error! status: <span class="subst">$&#123;response.status&#125;</span>`</span>);</span><br><span class="line">      &#125;</span><br><span class="line">      <span class="keyword">const</span> result = <span class="keyword">await</span> response.<span class="title function_">json</span>();</span><br><span class="line">      <span class="title function_">setData</span>(result);</span><br><span class="line">    &#125;;</span><br><span class="line"></span><br><span class="line">    <span class="title function_">fetchData</span>().<span class="title function_">catch</span>(<span class="function">(<span class="params">e</span>) =&gt;</span> &#123;</span><br><span class="line">      <span class="variable language_">console</span>.<span class="title function_">error</span>(<span class="string">&quot;An error occurred while fetching the data: &quot;</span>, e);</span><br><span class="line">    &#125;);</span><br><span class="line">  &#125;, []);</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> <span class="language-xml"><span class="tag">&lt;<span class="name">p</span>&gt;</span>&#123;data ? `Your data: $&#123;JSON.stringify(data)&#125;` : &quot;Loading...&quot;&#125;<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>可以看到，请求由客户端发出，同时页面显示 loading 状态，等数据返回后，主要内容在客户端进行渲染。</p>
+<p>当访问 <code>/csr</code>的时候，渲染的 HTML 文件为：</p>
+<p><img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/0cac714341954b49a46dbf336da6e0ab~tplv-k3u1fbpfcp-jj-mark:0:0:0:0:q75.image#?w=750&h=108&s=19401&e=png&b=202124" alt="image.png"></p>
+<p>JavaScript 获得数据后，最终更新为：</p>
+<p><img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/6dfd817e4b444a089889031ced76257f~tplv-k3u1fbpfcp-jj-mark:0:0:0:0:q75.image#?w=1332&h=140&s=46266&e=png&b=202124" alt="image.png"></p>
+<p>第二种方法是在客户端使用数据获取的库比如 <a target="_blank" rel="noopener" href="https://swr.vercel.app/">SWR</a>（也是 Next.js 团队开发的）或 <a target="_blank" rel="noopener" href="https://tanstack.com/query/latest/">TanStack Query</a>，举个例子：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// pages/csr2.js</span></span><br><span class="line"><span class="keyword">import</span> useSWR <span class="keyword">from</span> <span class="string">&quot;swr&quot;</span>;</span><br><span class="line"><span class="keyword">const</span> <span class="title function_">fetcher</span> = (<span class="params">...args</span>) =&gt; <span class="title function_">fetch</span>(...args).<span class="title function_">then</span>(<span class="function">(<span class="params">res</span>) =&gt;</span> res.<span class="title function_">json</span>());</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> <span class="keyword">function</span> <span class="title function_">Page</span>(<span class="params"></span>) &#123;</span><br><span class="line">  <span class="keyword">const</span> &#123; data, error, isLoading &#125; = <span class="title function_">useSWR</span>(</span><br><span class="line">    <span class="string">&quot;https://jsonplaceholder.typicode.com/todos/1&quot;</span>,</span><br><span class="line">    fetcher</span><br><span class="line">  );</span><br><span class="line"></span><br><span class="line">  <span class="keyword">if</span> (error) <span class="keyword">return</span> <span class="language-xml"><span class="tag">&lt;<span class="name">p</span>&gt;</span>Failed to load.<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span>;</span><br><span class="line">  <span class="keyword">if</span> (isLoading) <span class="keyword">return</span> <span class="language-xml"><span class="tag">&lt;<span class="name">p</span>&gt;</span>Loading...<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span>;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> <span class="language-xml"><span class="tag">&lt;<span class="name">p</span>&gt;</span>Your Data: &#123;data.title&#125;<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>效果同上</p>
+<h2 id="2-SSR"><a href="#2-SSR" class="headerlink" title="2. SSR"></a>2. SSR</h2><h3 id="2-1-概念介绍"><a href="#2-1-概念介绍" class="headerlink" title="2.1. 概念介绍"></a>2.1. 概念介绍</h3><p><strong>SSR，英文全称“Server-side Rendering”，中文翻译“服务端渲染”。顾名思义，渲染工作主要在服务端执行。</strong></p>
+<p>比如打开一篇博客文章页面，没有必要每次都让客户端请求，万一客户端网速不好呢，那干脆由服务端直接请求接口、获取数据，然后渲染成静态的 HTML 文件返回给用户。</p>
+<p>虽然同样是发送请求，但通常服务端的环境（网络环境、设备性能）要好于客户端，所以最终的渲染速度（首屏加载时间）也会更快。</p>
+<p>虽然总体速度是更快的，但因为 CSR 响应时只用返回一个很小的 HTML，SSR 响应还要请求接口，渲染 HTML，所以其响应时间会更长，对应到性能指标 TTFB (Time To First Byte)，SSR 更长。</p>
+<h3 id="2-2-Next-js-实现-SSR"><a href="#2-2-Next-js-实现-SSR" class="headerlink" title="2.2. Next.js 实现 SSR"></a>2.2. Next.js 实现 SSR</h3><p>Next.js 支持 SSR，我们使用 Pages Router 写个 demo：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// pages/ssr.js</span></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> <span class="keyword">function</span> <span class="title function_">Page</span>(<span class="params">&#123; data &#125;</span>) &#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="language-xml"><span class="tag">&lt;<span class="name">p</span>&gt;</span>&#123;JSON.stringify(data)&#125;<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">async</span> <span class="keyword">function</span> <span class="title function_">getServerSideProps</span>(<span class="params"></span>) &#123;</span><br><span class="line">  <span class="keyword">const</span> res = <span class="keyword">await</span> <span class="title function_">fetch</span>(<span class="string">`https://jsonplaceholder.typicode.com/todos`</span>);</span><br><span class="line">  <span class="keyword">const</span> data = <span class="keyword">await</span> res.<span class="title function_">json</span>();</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> &#123; <span class="attr">props</span>: &#123; data &#125; &#125;;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>使用 SSR，你需要导出一个名为 <code>getServerSideProps</code>的 async 函数。这个函数会在每次请求的时候被调用。返回的数据会通过组件的 props 属性传递给组件。</p>
+<p>效果如下：</p>
+<p><img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/ecc132bc3e7e4fe4a98608218746599a~tplv-k3u1fbpfcp-jj-mark:0:0:0:0:q75.image#?w=1226&h=202&s=34404&e=png&b=fefefe" alt="image.png"></p>
+<p>服务端会在每次请求的时候编译 HTML 文件返回给客户端。查看 HTML，这些数据可以直接看到：</p>
+<p><img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/3892d6c273e74e4191ba1619f171036b~tplv-k3u1fbpfcp-jj-mark:0:0:0:0:q75.image#?w=2108&h=114&s=41646&e=png&b=202124" alt="image.png"></p>
+<h2 id="3-SSG"><a href="#3-SSG" class="headerlink" title="3. SSG"></a>3. SSG</h2><h3 id="3-1-概念介绍"><a href="#3-1-概念介绍" class="headerlink" title="3.1. 概念介绍"></a>3.1. 概念介绍</h3><p><strong>SSG，英文全称“Static Site Generation”，中文翻译“静态站点生成”。</strong></p>
+<p>SSG 会在构建阶段，就将页面编译为静态的 HTML 文件。</p>
+<p>比如打开一篇博客文章页面，既然所有人看到的内容都是一样的，没有必要在用户请求页面的时候，服务端再请求接口。干脆先获取数据，提前编译成 HTML 文件，等用户访问的时候，直接返回 HTML 文件。这样速度会更快。再配上 CDN 缓存，速度就更快了。</p>
+<p>所以能用 SSG 就用 SSG。“在用户访问之前是否能预渲染出来？”如果能，就用 SSG。</p>
+<h3 id="3-2-Next-js-实现-SSG"><a href="#3-2-Next-js-实现-SSG" class="headerlink" title="3.2. Next.js 实现 SSG"></a>3.2. Next.js 实现 SSG</h3><p>Next.js 支持 SSG。当不获取数据时，默认使用的就是 SSG。我们使用 Pages Router 写个 demo：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// pages/ssg1.js</span></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">About</span>(<span class="params"></span>) &#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="language-xml"><span class="tag">&lt;<span class="name">div</span>&gt;</span>About<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> <span class="title class_">About</span>;</span><br></pre></td></tr></table></figure>
+
+<p>像这种没有数据请求的页面，Next.js 会在构建的时候生成一个单独的 HTML 文件。</p>
+<p>不过 Next.js 默认没有导出该文件。如果你想看到构建生成的 HTML 文件，修改 <code>next.config.js</code> 文件：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> nextConfig = &#123;</span><br><span class="line">  <span class="attr">output</span>: <span class="string">&quot;export&quot;</span>,</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="variable language_">module</span>.<span class="property">exports</span> = nextConfig;</span><br></pre></td></tr></table></figure>
+
+<p>再执行 <code>npm run build</code>，你就会在根目录下看到生成的 <code>out</code> 文件夹，里面存放了构建生成的 HTML 文件。</p>
+<p>那如果要获取数据呢？这分两种情况。</p>
+<p>第一种情况，页面内容需要获取数据。就比如博客的文章内容需要调用 API 获取。Next.js 提供了 <code>getStaticProps</code>。写个 demo：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// pages/ssg2.js</span></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> <span class="keyword">function</span> <span class="title function_">Blog</span>(<span class="params">&#123; posts &#125;</span>) &#123;</span><br><span class="line">  <span class="keyword">return</span> (</span><br><span class="line">    <span class="language-xml"><span class="tag">&lt;<span class="name">ul</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">      &#123;posts.map((post) =&gt; (</span></span><br><span class="line"><span class="language-xml">        <span class="tag">&lt;<span class="name">li</span> <span class="attr">key</span>=<span class="string">&#123;post.id&#125;</span>&gt;</span>&#123;post.title&#125;<span class="tag">&lt;/<span class="name">li</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">      ))&#125;</span></span><br><span class="line"><span class="language-xml">    <span class="tag">&lt;/<span class="name">ul</span>&gt;</span></span></span><br><span class="line">  );</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">async</span> <span class="keyword">function</span> <span class="title function_">getStaticProps</span>(<span class="params"></span>) &#123;</span><br><span class="line">  <span class="keyword">const</span> res = <span class="keyword">await</span> <span class="title function_">fetch</span>(<span class="string">&quot;https://jsonplaceholder.typicode.com/posts&quot;</span>);</span><br><span class="line">  <span class="keyword">const</span> posts = <span class="keyword">await</span> res.<span class="title function_">json</span>();</span><br><span class="line">  <span class="keyword">return</span> &#123;</span><br><span class="line">    <span class="attr">props</span>: &#123;</span><br><span class="line">      posts,</span><br><span class="line">    &#125;,</span><br><span class="line">  &#125;;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><code>getStaticProps</code>会在构建的时候被调用，并将数据通过 props 属性传递给页面。</p>
+<p>（还记得 <code>getServerSideProps</code> 吗？两者在用法上类似，不过 <code>getServerSideProps</code> 是在每次请求的时候被调用，<code>getStaticProps</code> 在每次构建的时候）</p>
+<p>第二种情况，是页面路径需要获取数据。</p>
+<p>这是什么意思呢？就比如数据库里有 100 篇文章，我肯定不可能自己手动定义 100 个路由，然后预渲染 100 个 HTML 吧。Next.js 提供了 <code>getStaticPaths</code>用于定义预渲染的路径。它需要搭配动态路由使用。写个 demo：</p>
+<p>新建 <code>/pages/post/[id].js</code>，代码如下：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// /pages/post/[id].js</span></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> <span class="keyword">function</span> <span class="title function_">Blog</span>(<span class="params">&#123; post &#125;</span>) &#123;</span><br><span class="line">  <span class="keyword">return</span> (</span><br><span class="line">    <span class="language-xml"><span class="tag">&lt;&gt;</span></span></span><br><span class="line"><span class="language-xml">      <span class="tag">&lt;<span class="name">header</span>&gt;</span>&#123;post.title&#125;<span class="tag">&lt;/<span class="name">header</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">      <span class="tag">&lt;<span class="name">main</span>&gt;</span>&#123;post.body&#125;<span class="tag">&lt;/<span class="name">main</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">    <span class="tag">&lt;/&gt;</span></span></span><br><span class="line">  );</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">async</span> <span class="keyword">function</span> <span class="title function_">getStaticPaths</span>(<span class="params"></span>) &#123;</span><br><span class="line">  <span class="keyword">const</span> res = <span class="keyword">await</span> <span class="title function_">fetch</span>(<span class="string">&quot;https://jsonplaceholder.typicode.com/posts&quot;</span>);</span><br><span class="line">  <span class="keyword">const</span> posts = <span class="keyword">await</span> res.<span class="title function_">json</span>();</span><br><span class="line"></span><br><span class="line">  <span class="keyword">const</span> paths = posts.<span class="title function_">map</span>(<span class="function">(<span class="params">post</span>) =&gt;</span> (&#123;</span><br><span class="line">    <span class="attr">params</span>: &#123; <span class="attr">id</span>: <span class="title class_">String</span>(post.<span class="property">id</span>) &#125;,</span><br><span class="line">  &#125;));</span><br><span class="line"></span><br><span class="line">  <span class="comment">// &#123; fallback: false &#125; 意味着当访问其他路由的时候返回 404</span></span><br><span class="line">  <span class="keyword">return</span> &#123; paths, <span class="attr">fallback</span>: <span class="literal">false</span> &#125;;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">async</span> <span class="keyword">function</span> <span class="title function_">getStaticProps</span>(<span class="params">&#123; params &#125;</span>) &#123;</span><br><span class="line">  <span class="comment">// 如果路由地址为 /posts/1, params.id 为 1</span></span><br><span class="line">  <span class="keyword">const</span> res = <span class="keyword">await</span> <span class="title function_">fetch</span>(</span><br><span class="line">    <span class="string">`https://jsonplaceholder.typicode.com/posts/<span class="subst">$&#123;params.id&#125;</span>`</span></span><br><span class="line">  );</span><br><span class="line">  <span class="keyword">const</span> post = <span class="keyword">await</span> res.<span class="title function_">json</span>();</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> &#123; <span class="attr">props</span>: &#123; post &#125; &#125;;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>其中，<code>getStaticPaths</code> 和 <code>getStaticProps</code>都会在构建的时候被调用，<code>getStaticPaths</code> 定义了哪些路径被预渲染，<code>getStaticProps</code>获取路径参数，请求数据传给页面。</p>
+<p>当你执行 <code>npm run build</code>的时候，就会看到 post 文件下生成了一堆 HTML 文件：</p>
+<img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/837825bf2e9c4d70a4d8abb86b842fea~tplv-k3u1fbpfcp-jj-mark:0:0:0:0:q75.image#?w=306\&h=480\&s=30167\&e=png\&b=252526" width="120">
+
+<h2 id="4-ISR"><a href="#4-ISR" class="headerlink" title="4. ISR"></a>4. ISR</h2><h3 id="4-1-概念介绍"><a href="#4-1-概念介绍" class="headerlink" title="4.1. 概念介绍"></a>4.1. 概念介绍</h3><p><strong>ISR，英文全称“Incremental Static Regeneration”，中文翻译“增量静态再生”。</strong></p>
+<p>还是打开一篇博客文章页面，博客的主体内容也许是不变的，但像比如点赞、收藏这些数据总是在变化的吧。使用 SSG 编译成 HTML 文件后，这些数据就无法准确获取了，那你可能就退而求其次改为 SSR 或者 CSR 了。</p>
+<p>考虑到这种情况，Next.js 提出了 ISR。当用户访问了这个页面，第一次依然是老的 HTML 内容，但是 Next.js 同时静态编译成新的 HTML 文件，当你第二次访问或者其他用户访问的时候，就会变成新的 HTML 内容了。</p>
+<p>Next.js v9.5 就发布了稳定的 ISR 功能，这是当时提供的 <a target="_blank" rel="noopener" href="https://reactions-demo.vercel.app/">demo</a> 效果：</p>
+<p><img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/26964dd0d6c14517abe5aa90fca2bba6~tplv-k3u1fbpfcp-jj-mark:0:0:0:0:q75.image#?w=1434&h=1464&s=1406805&e=gif&f=226&b=fcfcfc" alt="reactions-demo.gif"></p>
+<p>不过目前 demo 失效中。你可以在<a target="_blank" rel="noopener" href="https://on-demand-isr.vercel.app/">新 demo</a> 中测试 ISR 效果。</p>
+<h3 id="4-2-Next-js-实现-ISR"><a href="#4-2-Next-js-实现-ISR" class="headerlink" title="4.2. Next.js 实现 ISR"></a>4.2. Next.js 实现 ISR</h3><p>Next.js 支持 ISR，并且使用的方式很简单。你只用在 <code>getStaticProps</code> 中添加一个 <code>revalidate</code>即可。我们基于 SSG 的示例代码上进行修改：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// pages/post/[id].js</span></span><br><span class="line"><span class="comment">// 保持不变</span></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> <span class="keyword">function</span> <span class="title function_">Blog</span>(<span class="params">&#123; post &#125;</span>) &#123;</span><br><span class="line">  <span class="keyword">return</span> (</span><br><span class="line">    <span class="language-xml"><span class="tag">&lt;&gt;</span></span></span><br><span class="line"><span class="language-xml">      <span class="tag">&lt;<span class="name">header</span>&gt;</span>&#123;post.title&#125;<span class="tag">&lt;/<span class="name">header</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">      <span class="tag">&lt;<span class="name">main</span>&gt;</span>&#123;post.body&#125;<span class="tag">&lt;/<span class="name">main</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">    <span class="tag">&lt;/&gt;</span></span></span><br><span class="line">  );</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// fallback 的模式改为 &#x27;blocking&#x27;</span></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">async</span> <span class="keyword">function</span> <span class="title function_">getStaticPaths</span>(<span class="params"></span>) &#123;</span><br><span class="line">  <span class="keyword">const</span> res = <span class="keyword">await</span> <span class="title function_">fetch</span>(<span class="string">&quot;https://jsonplaceholder.typicode.com/posts&quot;</span>);</span><br><span class="line">  <span class="keyword">const</span> posts = <span class="keyword">await</span> res.<span class="title function_">json</span>();</span><br><span class="line"></span><br><span class="line">  <span class="keyword">const</span> paths = posts.<span class="title function_">slice</span>(<span class="number">0</span>, <span class="number">10</span>).<span class="title function_">map</span>(<span class="function">(<span class="params">post</span>) =&gt;</span> (&#123;</span><br><span class="line">    <span class="attr">params</span>: &#123; <span class="attr">id</span>: <span class="title class_">String</span>(post.<span class="property">id</span>) &#125;,</span><br><span class="line">  &#125;));</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> &#123; paths, <span class="attr">fallback</span>: <span class="string">&quot;blocking&quot;</span> &#125;;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 使用这种随机的方式模拟数据改变</span></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">getRandomInt</span>(<span class="params">max</span>) &#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="title class_">Math</span>.<span class="title function_">floor</span>(<span class="title class_">Math</span>.<span class="title function_">random</span>() * max);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 多返回了 revalidata 属性</span></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">async</span> <span class="keyword">function</span> <span class="title function_">getStaticProps</span>(<span class="params">&#123; params &#125;</span>) &#123;</span><br><span class="line">  <span class="keyword">const</span> res = <span class="keyword">await</span> <span class="title function_">fetch</span>(</span><br><span class="line">    <span class="string">`https://jsonplaceholder.typicode.com/posts/<span class="subst">$&#123;getRandomInt(<span class="number">100</span>)&#125;</span>`</span></span><br><span class="line">  );</span><br><span class="line">  <span class="keyword">const</span> post = <span class="keyword">await</span> res.<span class="title function_">json</span>();</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> &#123;</span><br><span class="line">    <span class="attr">props</span>: &#123; post &#125;,</span><br><span class="line">    <span class="attr">revalidate</span>: <span class="number">10</span>,</span><br><span class="line">  &#125;;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><code>revalidate</code>表示当发生请求的时候，至少间隔多少秒才更新页面。</p>
+<p>这听起来有些抽象，以 <code>revalidate: 10</code> 为例，在初始请求后和接下来的 10 秒内，页面都会使用之前构建的 HTML。10s 后第一个请求发生的时候，依然使用之前编译的 HTML。但 Next.js 会开始构建更新 HTML，从下个请求起就会使用新的 HTML。（如果构建失败了，就还是用之前的，等下次再触发更新）</p>
+<p>当你在本地使用 <code>next dev</code>运行的时候，<code>getStaticProps</code>会在每次请求的时候被调用。所以如果你要测试 ISR 功能，先构建出生产版本，再运行生产服务。也就是说，测试 ISR 效果，用这俩命令：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">next build <span class="comment">// 或 npm run build</span></span><br><span class="line">next start <span class="comment">// 或 npm run start</span></span><br></pre></td></tr></table></figure>
+
+<p>最终示例代码的效果如下：</p>
+<p><img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/ff96d135af07484eaff5c670633bf808~tplv-k3u1fbpfcp-jj-mark:0:0:0:0:q75.image#?w=665&h=178&s=83852&e=gif&f=70&b=fcfcfc" alt="isr.gif"></p>
+<p>你可以看到，页面刷新后，文章内容发生变化。然后 10s 内的刷新，页面内容都没有变化。10s 后的第一次刷新触发了更新，10s 后的第二次刷新内容发生了变化。</p>
+<p>注意这次 <code>getStaticPaths</code> 函数的返回为<code>return &#123; paths, fallback: &#39;blocking&#39; &#125;</code>。它表示构建的时候就渲染 <code>paths</code> 里的这些路径。如果请求其他的路径，那就执行服务端渲染。在上节 SSG 的例子中，我们设置 <code>fallback</code>为 false，它表示如果请求其他的路径，就会返回 404 错误。</p>
+<p>所以在这个 ISR demo 中，如果请求了尚未生成的路径，Next.js 会在第一次请求的时候就执行服务端渲染，编译出 HTML 文件，再请求时就从缓存里返回该 HTML 文件。SSG 优雅降级到 SSR。</p>
+<h2 id="5-支持混合使用"><a href="#5-支持混合使用" class="headerlink" title="5. 支持混合使用"></a>5. 支持混合使用</h2><p>在写 demo 的时候，想必你已经发现了，其实每个页面你并没有专门声明使用哪种渲染模式，Next.js 是自动判断的。所以一个 Next.js 应用里支持混合使用多种渲染模式。</p>
+<p>当页面有 <code>getServerSideProps</code>的时候，Next.js 切成 SSR 模式。没有 <code>getServerSideProps</code> 则会预渲染页面为静态的 HTML。那你可能会问，CSR 呢？就算用 CSR 模式，Next.js 也要提供一个静态的 HTML，所以还是要走预渲染这步的，只不过相比 SSG，渲染的内容少了些。</p>
+<p>页面可以是 SSG + CSR 的混合，由 SSG 提供初始的静态页面，提高首屏加载速度。CSR 动态填充内容，提供交互能力。举个例子：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// pages/postList.js</span></span><br><span class="line"><span class="keyword">import</span> <span class="title class_">React</span>, &#123; useState &#125; <span class="keyword">from</span> <span class="string">&quot;react&quot;</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> <span class="keyword">function</span> <span class="title function_">Blog</span>(<span class="params">&#123; posts &#125;</span>) &#123;</span><br><span class="line">  <span class="keyword">const</span> [data, setData] = <span class="title function_">useState</span>(posts);</span><br><span class="line">  <span class="keyword">return</span> (</span><br><span class="line">    <span class="language-xml"><span class="tag">&lt;&gt;</span></span></span><br><span class="line"><span class="language-xml">      <span class="tag">&lt;<span class="name">button</span></span></span></span><br><span class="line"><span class="tag"><span class="language-xml">        <span class="attr">onClick</span>=<span class="string">&#123;async</span> () =&gt;</span> &#123;</span></span><br><span class="line"><span class="language-xml">          const res = await fetch(&quot;https://jsonplaceholder.typicode.com/posts&quot;);</span></span><br><span class="line"><span class="language-xml">          const posts = await res.json();</span></span><br><span class="line"><span class="language-xml">          setData(posts.slice(10, 20));</span></span><br><span class="line"><span class="language-xml">        &#125;&#125;</span></span><br><span class="line"><span class="language-xml">      &gt;</span></span><br><span class="line"><span class="language-xml">        换一批</span></span><br><span class="line"><span class="language-xml">      <span class="tag">&lt;/<span class="name">button</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">      <span class="tag">&lt;<span class="name">ul</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">        &#123;data.map((post) =&gt; (</span></span><br><span class="line"><span class="language-xml">          <span class="tag">&lt;<span class="name">li</span> <span class="attr">key</span>=<span class="string">&#123;post.id&#125;</span>&gt;</span>&#123;post.title&#125;<span class="tag">&lt;/<span class="name">li</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">        ))&#125;</span></span><br><span class="line"><span class="language-xml">      <span class="tag">&lt;/<span class="name">ul</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">    <span class="tag">&lt;/&gt;</span></span></span><br><span class="line">  );</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">async</span> <span class="keyword">function</span> <span class="title function_">getStaticProps</span>(<span class="params"></span>) &#123;</span><br><span class="line">  <span class="keyword">const</span> res = <span class="keyword">await</span> <span class="title function_">fetch</span>(<span class="string">&quot;https://jsonplaceholder.typicode.com/posts&quot;</span>);</span><br><span class="line">  <span class="keyword">const</span> posts = <span class="keyword">await</span> res.<span class="title function_">json</span>();</span><br><span class="line">  <span class="keyword">return</span> &#123;</span><br><span class="line">    <span class="attr">props</span>: &#123;</span><br><span class="line">      <span class="attr">posts</span>: posts.<span class="title function_">slice</span>(<span class="number">0</span>, <span class="number">10</span>),</span><br><span class="line">    &#125;,</span><br><span class="line">  &#125;;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>初始的文章列表数据就是在构建的时候写入 HTML 里的，在点击换一批按钮的时候，则是在客户端发送请求重新渲染内容。</p>
+<h2 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h2><p>恭喜你，完成了本篇内容的学习！</p>
+<p>这一篇我们简单回顾了 Next.js Pages Router 下的的 4 种渲染模式，但是在 App Router 下，因为改为使用 React Server Component，所以弱化了这些概念，转而使用“服务端组件、客户端组件”等概念。那这些渲染模式跟所谓“服务端组件、客户端组件”又有什么联系和区别呢？欢迎继续学习。</p>
+<h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h2><ol>
+<li><a target="_blank" rel="noopener" href="https://nextjs.org/blog/next-9-5">Next.js 9.5</a></li>
+<li><a target="_blank" rel="noopener" href="https://nextjs.org/docs/app/building-your-application/deploying/static-exports">Deploying: Static Exports</a></li>
+<li><a target="_blank" rel="noopener" href="https://nextjs.org/docs/pages/building-your-application/rendering/server-side-rendering">Rendering: Server-side Rendering (SSR)</a></li>
+<li><a target="_blank" rel="noopener" href="https://nextjs.org/docs/pages/building-your-application/rendering/static-site-generation">Rendering: Static Site Generation (SSG)</a></li>
+<li><a target="_blank" rel="noopener" href="https://nextjs.org/docs/pages/building-your-application/rendering/incremental-static-regeneration">Rendering: Incremental Static Regeneration (ISR)</a></li>
+<li><a target="_blank" rel="noopener" href="https://nextjs.org/docs/pages/building-your-application/rendering/automatic-static-optimization">Rendering: Automatic Static Optimization</a></li>
+<li><a target="_blank" rel="noopener" href="https://nextjs.org/docs/pages/building-your-application/rendering/client-side-rendering">Rendering: Client-side Rendering (CSR)</a></li>
+</ol>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2024/09/03/hello-world/" rel="next" title="Hello World">
+                <i class="fa fa-chevron-left"></i> Hello World
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name"></p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/%20%7C%7C%20archive">
+              
+                  <span class="site-state-item-count">2</span>
+                  <span class="site-state-item-name">posts</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%89%8D%E8%A8%80"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-CSR"><span class="nav-number">2.</span> <span class="nav-text">1. CSR</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-1-%E6%A6%82%E5%BF%B5%E4%BB%8B%E7%BB%8D"><span class="nav-number">2.1.</span> <span class="nav-text">1.1. 概念介绍</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-2-Next-js-%E5%AE%9E%E7%8E%B0-CSR"><span class="nav-number">2.2.</span> <span class="nav-text">1.2. Next.js 实现 CSR</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-SSR"><span class="nav-number">3.</span> <span class="nav-text">2. SSR</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-1-%E6%A6%82%E5%BF%B5%E4%BB%8B%E7%BB%8D"><span class="nav-number">3.1.</span> <span class="nav-text">2.1. 概念介绍</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2-Next-js-%E5%AE%9E%E7%8E%B0-SSR"><span class="nav-number">3.2.</span> <span class="nav-text">2.2. Next.js 实现 SSR</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-SSG"><span class="nav-number">4.</span> <span class="nav-text">3. SSG</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#3-1-%E6%A6%82%E5%BF%B5%E4%BB%8B%E7%BB%8D"><span class="nav-number">4.1.</span> <span class="nav-text">3.1. 概念介绍</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-2-Next-js-%E5%AE%9E%E7%8E%B0-SSG"><span class="nav-number">4.2.</span> <span class="nav-text">3.2. Next.js 实现 SSG</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-ISR"><span class="nav-number">5.</span> <span class="nav-text">4. ISR</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#4-1-%E6%A6%82%E5%BF%B5%E4%BB%8B%E7%BB%8D"><span class="nav-number">5.1.</span> <span class="nav-text">4.1. 概念介绍</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-2-Next-js-%E5%AE%9E%E7%8E%B0-ISR"><span class="nav-number">5.2.</span> <span class="nav-text">4.2. Next.js 实现 ISR</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-%E6%94%AF%E6%8C%81%E6%B7%B7%E5%90%88%E4%BD%BF%E7%94%A8"><span class="nav-number">6.</span> <span class="nav-text">5. 支持混合使用</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%B0%8F%E7%BB%93"><span class="nav-number">7.</span> <span class="nav-text">小结</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%82%E8%80%83%E9%93%BE%E6%8E%A5"><span class="nav-number">8.</span> <span class="nav-text">参考链接</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2024</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">John Doe</span>
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Muse</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
