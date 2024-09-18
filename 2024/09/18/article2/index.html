@@ -79,17 +79,21 @@
 
 
 
-<meta name="description" content="Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in troubleshooting or you can ask me on GitHub. Quick">
+<meta name="description" content="捕获当用户触发事件时，比如点击，按键等等，DOM 会生成一个事件对象，但该事件并不是在目标元素直接生成的，而是在根元素 Document 处生成的，它会沿着 dom 树的层级关系从上向下传播到目标元素触发事件处理，该过程称为捕获。 冒泡在目标元素处触发事件后，事件传播并未停止，它会沿着来时的路径在返回到根元素 Document，在返回过程中如果途径的元素上绑定了同一事件类型的处理程序，则也会触发。">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Hello World">
-<meta property="og:url" content="http://example.com/2024/09/03/hello-world/index.html">
+<meta property="og:title" content="事件传播：捕获和冒泡">
+<meta property="og:url" content="http://example.com/2024/09/18/article2/index.html">
 <meta property="og:site_name" content="Hexo">
-<meta property="og:description" content="Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in troubleshooting or you can ask me on GitHub. Quick">
+<meta property="og:description" content="捕获当用户触发事件时，比如点击，按键等等，DOM 会生成一个事件对象，但该事件并不是在目标元素直接生成的，而是在根元素 Document 处生成的，它会沿着 dom 树的层级关系从上向下传播到目标元素触发事件处理，该过程称为捕获。 冒泡在目标元素处触发事件后，事件传播并未停止，它会沿着来时的路径在返回到根元素 Document，在返回过程中如果途径的元素上绑定了同一事件类型的处理程序，则也会触发。">
 <meta property="og:locale" content="en_US">
-<meta property="article:published_time" content="2024-09-03T05:45:04.001Z">
-<meta property="article:modified_time" content="2024-09-03T05:45:04.001Z">
+<meta property="og:image" content="http://example.com/images/a2/p1.png">
+<meta property="og:image" content="http://example.com/images/a2/p2.png">
+<meta property="og:image" content="http://example.com/images/a2/p3.png">
+<meta property="article:published_time" content="2024-09-18T15:18:40.000Z">
+<meta property="article:modified_time" content="2024-09-18T15:21:24.669Z">
 <meta property="article:author" content="John Doe">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/images/a2/p1.png">
 
 
 
@@ -119,13 +123,13 @@
 
 
 
-  <link rel="canonical" href="http://example.com/2024/09/03/hello-world/"/>
+  <link rel="canonical" href="http://example.com/2024/09/18/article2/"/>
 
 
 
 
 
-  <title>Hello World | Hexo</title>
+  <title>事件传播：捕获和冒泡 | Hexo</title>
   
 
 
@@ -232,7 +236,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2024/09/03/hello-world/">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2024/09/18/article2/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="">
@@ -249,7 +253,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">Hello World</h1>
+          <h1 class="post-title" itemprop="name headline">事件传播：捕获和冒泡</h1>
         
 
         <div class="post-meta">
@@ -261,8 +265,8 @@
               
                 <span class="post-meta-item-text">Posted on</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2024-09-03T13:45:04+08:00">
-                2024-09-03
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2024-09-18T23:18:40+08:00">
+                2024-09-18
               </time>
             
 
@@ -299,19 +303,23 @@
       
 
       
-        <p>Welcome to <a target="_blank" rel="noopener" href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a target="_blank" rel="noopener" href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a target="_blank" rel="noopener" href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a target="_blank" rel="noopener" href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">&quot;My New Post&quot;</span></span><br></pre></td></tr></table></figure>
+        <h2 id="捕获"><a href="#捕获" class="headerlink" title="捕获"></a>捕获</h2><p>当用户触发事件时，比如点击，按键等等，DOM 会生成一个事件对象，但该事件并不是在目标元素直接生成的，而是在根元素 Document 处生成的，它会沿着 dom 树的层级关系从上向下传播到目标元素触发事件处理，该过程称为捕获。</p>
+<h2 id="冒泡"><a href="#冒泡" class="headerlink" title="冒泡"></a>冒泡</h2><p>在目标元素处触发事件后，事件传播并未停止，它会沿着来时的路径在返回到根元素 Document，在返回过程中如果途径的元素上绑定了同一事件类型的处理程序，则也会触发。该过程成为冒泡。</p>
+<h2 id="例子"><a href="#例子" class="headerlink" title="例子"></a>例子</h2><p><img src="/../images/a2/p1.png" alt="image-1"></p>
+<p>在三个元素上分别绑定了点击事件，只要触发事件就会改变背景颜色。（图中所示三种颜色是默认颜色）</p>
+<p>当你点击孩子元素时，会发现不仅改变了孩子元素的背景色，其父元素和“爷元素”也都改变了背景色。我们来分析一下这个现象背后的过程，当点击孩子元素时，在 Document 生成了点击事件，通过捕获过程穿过爷元素和父元素到达子元素触发改变背景色的事件处理程序，之后该点击事件通过冒泡过程穿过父元素和爷元素并在经过时触发其身上绑定的 click 事件处理程序 ，因而他们的背景色也改变了。</p>
+<h2 id="e-target-和-e-currentTarget"><a href="#e-target-和-e-currentTarget" class="headerlink" title="e.target() 和 e.currentTarget()"></a>e.target() 和 e.currentTarget()</h2><figure class="highlight plaintext"><figcaption><span>function (e) &#123;</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">child.addEventListener(&quot;click&quot;, function (e) &#123;</span><br><span class="line">        this.style.backgroundColor = randomColor();</span><br><span class="line">        console.log(&quot;Child:&quot;, e.target, e.currentTarget);</span><br><span class="line">      &#125;);</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/writing.html">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
+<p><code>e.target</code> 是<strong>事件的实际触发元素</strong>，即用户点击、悬停等交互操作发生的具体元素。</p>
+<p>无论事件是绑定在该元素本身，还是通过事件冒泡从其父元素触发，<code>e.target</code>始终表示最底层、最具体的触发元素。</p>
+<p><code>e.currentTarget</code> 是<strong>事件处理程序绑定的元素</strong>，即当前处理事件的那个元素。</p>
+<p>它表示的是正在处理该事件的元素，而非实际触发事件的元素。当事件冒泡时，<code>e.currentTarget</code>会随着事件冒泡改变，指向绑定事件处理函数的元素。</p>
+<p><img src="/../images/a2/p2.png" alt="image-2"></p>
+<h2 id="设置在捕获阶段触发事件"><a href="#设置在捕获阶段触发事件" class="headerlink" title="设置在捕获阶段触发事件"></a>设置在捕获阶段触发事件</h2><p>在默认情况下，事件触发是在冒泡阶段，但我们可以在<code>addEventListener</code>添加第三个参数，设置为在捕获阶段触发事件</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">grandParent.addEventListener(</span><br><span class="line">  &quot;click&quot;,</span><br><span class="line">  function (e) &#123;</span><br><span class="line">    this.style.backgroundColor = randomColor();</span><br><span class="line">    console.log(&quot;grandParent:&quot;, e.target, e.currentTarget);</span><br><span class="line">  &#125;,</span><br><span class="line">  true</span><br><span class="line">);```</span><br></pre></td></tr></table></figure>
 
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/server.html">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/generating.html">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
+<p><img src="/../images/a2/p3.png" alt="image-3"></p>
+<p>先触发爷元素上绑定事件</p>
 
       
     </div>
@@ -336,15 +344,15 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
+              <a href="/2024/09/11/article1/" rel="next" title="个人搭建博客指北（2024）">
+                <i class="fa fa-chevron-left"></i> 个人搭建博客指北（2024）
+              </a>
+            
           </div>
 
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2024/09/11/article1/" rel="prev" title="个人搭建博客指北（2024）">
-                个人搭建博客指北（2024） <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -458,7 +466,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Quick-Start"><span class="nav-number">1.</span> <span class="nav-text">Quick Start</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Create-a-new-post"><span class="nav-number">1.1.</span> <span class="nav-text">Create a new post</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Run-server"><span class="nav-number">1.2.</span> <span class="nav-text">Run server</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Generate-static-files"><span class="nav-number">1.3.</span> <span class="nav-text">Generate static files</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Deploy-to-remote-sites"><span class="nav-number">1.4.</span> <span class="nav-text">Deploy to remote sites</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%8D%95%E8%8E%B7"><span class="nav-number">1.</span> <span class="nav-text">捕获</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%86%92%E6%B3%A1"><span class="nav-number">2.</span> <span class="nav-text">冒泡</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BE%8B%E5%AD%90"><span class="nav-number">3.</span> <span class="nav-text">例子</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#e-target-%E5%92%8C-e-currentTarget"><span class="nav-number">4.</span> <span class="nav-text">e.target() 和 e.currentTarget()</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%AE%BE%E7%BD%AE%E5%9C%A8%E6%8D%95%E8%8E%B7%E9%98%B6%E6%AE%B5%E8%A7%A6%E5%8F%91%E4%BA%8B%E4%BB%B6"><span class="nav-number">5.</span> <span class="nav-text">设置在捕获阶段触发事件</span></a></li></ol></div>
             
 
           </div>
