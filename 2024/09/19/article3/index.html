@@ -1,0 +1,752 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="en">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="如果说 Javascript 中最令人感到困惑的一个概念，this 绝对在其中占有一席之地。可能每个用Javascript的开发人员都遇到过因this指向而引入的 bug，这篇文章致力于梳理清楚这个令人头疼的概念。 [参考文章] 1.https:&#x2F;&#x2F;zh.javascript.info&#x2F;constructor-new 2.https:&#x2F;&#x2F;juejin.cn&#x2F;post&#x2F;684490368044603">
+<meta property="og:type" content="article">
+<meta property="og:title" content="这this怎么tm这么乱？？">
+<meta property="og:url" content="http://example.com/2024/09/19/article3/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="如果说 Javascript 中最令人感到困惑的一个概念，this 绝对在其中占有一席之地。可能每个用Javascript的开发人员都遇到过因this指向而引入的 bug，这篇文章致力于梳理清楚这个令人头疼的概念。 [参考文章] 1.https:&#x2F;&#x2F;zh.javascript.info&#x2F;constructor-new 2.https:&#x2F;&#x2F;juejin.cn&#x2F;post&#x2F;684490368044603">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://example.com/images/a3/p1.png">
+<meta property="og:image" content="http://example.com/images/a3/p2.png">
+<meta property="og:image" content="http://example.com/images/a3/p3.png">
+<meta property="og:image" content="http://example.com/images/a3/p4.png">
+<meta property="article:published_time" content="2024-09-18T17:13:47.000Z">
+<meta property="article:modified_time" content="2024-09-18T17:18:12.914Z">
+<meta property="article:author" content="John Doe">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/images/a3/p1.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '',
+    scheme: 'Muse',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://example.com/2024/09/19/article3/"/>
+
+
+
+
+
+  <title>这this怎么tm这么乱？？ | Hexo</title>
+  
+
+
+
+
+
+
+
+
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="en">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Hexo</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/%20" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/%20" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            Archives
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2024/09/19/article3/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">这this怎么tm这么乱？？</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2024-09-19T01:13:47+08:00">
+                2024-09-19
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>如果说 Javascript 中最令人感到困惑的一个概念，<code>this</code> 绝对在其中占有一席之地。可能每个用<code>Javascript</code>的开发人员都遇到过因<code>this</code>指向而引入的 bug，这篇文章致力于梳理清楚这个令人头疼的概念。</p>
+<p>[参考文章]</p>
+<p>1.<a target="_blank" rel="noopener" href="https://zh.javascript.info/constructor-new">https://zh.javascript.info/constructor-new</a></p>
+<p>2.<a target="_blank" rel="noopener" href="https://juejin.cn/post/6844903680446038023">https://juejin.cn/post/6844903680446038023</a></p>
+<h1 id="两个基石"><a href="#两个基石" class="headerlink" title="两个基石"></a>两个基石</h1><h2 id="1-JavaScript-中的-this-是在函数被调用时确定的，而不是在函数定义时固定的。"><a href="#1-JavaScript-中的-this-是在函数被调用时确定的，而不是在函数定义时固定的。" class="headerlink" title="1.JavaScript 中的 this 是在函数被调用时确定的，而不是在函数定义时固定的。"></a>1.JavaScript 中的 <code>this</code> 是在函数被调用时确定的，而不是在函数定义时固定的。</h2><p>在深入了解 JavaScript 中的 <code>this</code> 关键字之前，有必要先退一步，看一下为什么 <code>this</code> 关键字很重要。<code>this</code> 允许<strong>复用函数</strong>时使用不同的上下文。换句话说，<strong>“this” 关键字允许在调用函数或方法时决定哪个对象应该是焦点。</strong></p>
+<p>具体来说，如果我们在一个函数或对象方法的函数体内引入了<code>this</code>关键字，其实我们是希望该函数或方法可以在多种不同情况的上下文中使用，而在不同上下文情况下因为 this 的指向不同进而输出也不相同，通过这种方式，我们就实现了同一个函数或方法在不同的使用环境（上下文）中根据不同的输入（<code>this</code> 指向不同），得到不同的输出，也就是实现了函数的复用。</p>
+<p>之后讨论的所有东西都是基于这个理念。我们希望能够在不同的上下文或在不同的对象中复用函数或方法。</p>
+<p>因为我们在函数体内引入<code>this</code> 关键字的目的是复用，这也就意味着他们共享着同一个函数定义，自然而然区分不同环境的唯一手段就是在函数调用时区分，简而言之，<br><strong>JavaScript 中的 <code>this</code> 是在函数被调用时确定的，而不是在函数定义时固定的。</strong></p>
+<p>具体 this 的值如何根据调用方式不同而判定，我们下面会进行说明</p>
+<h2 id="2-函数是一种特殊的对象，可以被赋值，传递，使用"><a href="#2-函数是一种特殊的对象，可以被赋值，传递，使用" class="headerlink" title="2.函数是一种特殊的对象，可以被赋值，传递，使用"></a>2.函数是一种特殊的对象，可以被赋值，传递，使用</h2><p>我们再来将目光聚焦于函数，在<code>Javascript</code> 中，函数是“一等公民”，本质上是一种特殊的对象。这也就意味着函数可以像一般的值（比如数字，字符串，普通对象）那样被赋值，传递，使用。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">//一个普通的函数</span><br><span class="line">function fun() &#123;</span><br><span class="line">  let name = 1;</span><br><span class="line">  console.log(this);</span><br><span class="line">&#125;</span><br><span class="line">//查看该函数的值</span><br><span class="line">console.log(fun);</span><br></pre></td></tr></table></figure>
+
+<p>我们可以发现，函数的值就是函数定义本身</p>
+<p><img src="/../images/a3/p1.png" alt="image-1"></p>
+<p>如果是匿名函数呢？</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">console.log(function() &#123;</span><br><span class="line">  console.log(this)</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<p><img src="/../images/a3/p2.png" alt="image-2"></p>
+<h1 id="具体例子"><a href="#具体例子" class="headerlink" title="具体例子"></a>具体例子</h1><p>我们可以看一些具体例子，</p>
+<figure class="highlight jsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> person = &#123;</span><br><span class="line">  <span class="attr">name</span>: <span class="string">&quot;Alice&quot;</span>,</span><br><span class="line">  <span class="attr">greet</span>: <span class="keyword">function</span> (<span class="params"></span>) &#123;</span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">`Hello, my name is <span class="subst">$&#123;<span class="variable language_">this</span>.name&#125;</span>`</span>);</span><br><span class="line">  &#125;,</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> person2 = &#123; <span class="attr">name</span>: <span class="string">&quot;Bob&quot;</span>, <span class="attr">greet</span>: person.<span class="property">greet</span> &#125;;</span><br><span class="line"></span><br><span class="line">person.<span class="title function_">greet</span>(); <span class="comment">// 输出: Hello, my name is Alice</span></span><br><span class="line">person2.<span class="title function_">greet</span>(); <span class="comment">// 输出: Hello, my name is Bob</span></span><br></pre></td></tr></table></figure>
+
+<p><code>person</code>中的<code>greet</code>方法显式的含有<code>this</code>关键字，而<code>person2</code>中的<code>greet</code>方法乍一看好像并没有<code>this</code>关键字，而实际上，根据我们上面两个基石中的第二条，这实际上是将<code>person</code>的<code>greet</code>方法的值赋值给了<code>person2</code>的<code>greet</code>方法，本质上<code>person2</code>是这样</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">const person2 = &#123;</span><br><span class="line">	name: &#x27;Bob&#x27;,</span><br><span class="line">	greet: function() &#123;</span><br><span class="line">    console.log(`Hello, my name is $&#123;this.name&#125;`);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>再来看一个例子，首先我想说明，对象里的方法有两种写法，以下两种写法完全等价</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">//写法1</span><br><span class="line">let user = &#123;</span><br><span class="line">  name: &quot;Bob&quot;,</span><br><span class="line">  seeThis: function () &#123;</span><br><span class="line">    console.log(this);</span><br><span class="line">  &#125;,</span><br><span class="line">&#125;;</span><br><span class="line">//写法2</span><br><span class="line">let user = &#123;</span><br><span class="line">  name: &quot;Bob&quot;,</span><br><span class="line">  seeThis() &#123;</span><br><span class="line">    console.log(this);</span><br><span class="line">  &#125;,</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">//任选上面一种写法，调用user里的seeThis方法</span><br><span class="line">user.seeThis();</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>运行结果如下</p>
+<p><img src="/../images/a3/p3.png" alt="image-3"></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">let user = &#123;</span><br><span class="line">  name: &quot;Bob&quot;,</span><br><span class="line"></span><br><span class="line">  seeThis() &#123;</span><br><span class="line">    console.log(this);</span><br><span class="line">  &#125;,</span><br><span class="line">  // seeThis: () =&gt; &#123;</span><br><span class="line">  //   console.log(this);</span><br><span class="line">  // &#125;,</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">let tempFun = user.seeThis;</span><br><span class="line">tempFun();</span><br><span class="line">user.seeThis();</span><br></pre></td></tr></table></figure>
+
+<p><img src="/../images/a3/p4.png" alt="image-4"></p>
+<h1 id="如何根据函数不同调用方式判断-this-的值？"><a href="#如何根据函数不同调用方式判断-this-的值？" class="headerlink" title="如何根据函数不同调用方式判断 this 的值？"></a>如何根据函数不同调用方式判断 this 的值？</h1><p>一共有四种不同的调用方式，对应四种不同的绑定 this 值的方式</p>
+<h2 id="1-点运算符调用对象方法-obj-func-→-隐式绑定"><a href="#1-点运算符调用对象方法-obj-func-→-隐式绑定" class="headerlink" title="1.点运算符调用对象方法 obj.func()→ 隐式绑定"></a>1.点运算符调用对象方法 obj.func()→ 隐式绑定</h2><p>注意这种情形最普遍，大约覆盖八成的情形。</p>
+<p>如果含 this 的是一个对象的方法，则调用该方法需采用点运算符，则点运算符左边的对象实例就是对象方法里 this 的指向。</p>
+<p><strong>举例</strong></p>
+<figure class="highlight jsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> user = &#123;</span><br><span class="line">  <span class="attr">name</span>: <span class="string">&quot;Tyler&quot;</span>,</span><br><span class="line">  <span class="attr">age</span>: <span class="number">27</span>,</span><br><span class="line">  <span class="title function_">greet</span>(<span class="params"></span>) &#123;</span><br><span class="line">    <span class="title function_">alert</span>(<span class="string">`Hello, my name is <span class="subst">$&#123;<span class="variable language_">this</span>.name&#125;</span>`</span>);</span><br><span class="line">  &#125;,</span><br><span class="line">&#125;;</span><br><span class="line">user.<span class="title function_">greet</span>(); <span class="comment">//</span></span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">首先判断哪里含this，答案是在user对象的greet方法里含this。即是对象方法里含this，</span></span><br><span class="line"><span class="comment">那在user.greet()语句中用点运算符调用了含this的greet方法，</span></span><br><span class="line"><span class="comment">则其this指向为点运算符左侧的user对象</span></span><br><span class="line"><span class="comment">因此输出Hello, my name is Tyler</span></span><br><span class="line"><span class="comment">*/</span></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight jsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> user = &#123;</span><br><span class="line">  <span class="attr">name</span>: <span class="string">&quot;Tyler&quot;</span>,</span><br><span class="line">  <span class="attr">age</span>: <span class="number">27</span>,</span><br><span class="line">  <span class="title function_">greet</span>(<span class="params"></span>) &#123;</span><br><span class="line">    <span class="title function_">alert</span>(<span class="string">`Hello, my name is <span class="subst">$&#123;<span class="variable language_">this</span>.name&#125;</span>`</span>);</span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="attr">mother</span>: &#123;</span><br><span class="line">    <span class="attr">name</span>: <span class="string">&quot;Stacey&quot;</span>,</span><br><span class="line">    <span class="title function_">greet</span>(<span class="params"></span>) &#123;</span><br><span class="line">      <span class="title function_">alert</span>(<span class="string">`Hello, my name is <span class="subst">$&#123;<span class="variable language_">this</span>.name&#125;</span>`</span>);</span><br><span class="line">    &#125;,</span><br><span class="line">  &#125;,</span><br><span class="line">&#125;;</span><br><span class="line">user.<span class="title function_">greet</span>(); <span class="comment">// Tyler</span></span><br><span class="line">user.<span class="property">mother</span>.<span class="title function_">greet</span>(); <span class="comment">// Stacey</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="2-call-apply-bind-调用函数-→-显式绑定"><a href="#2-call-apply-bind-调用函数-→-显式绑定" class="headerlink" title="2.call,apply,bind 调用函数 → 显式绑定"></a>2.call,apply,bind 调用函数 → 显式绑定</h2><p>如果含 this 的不是对象中的方法，而只是一般的函数，那么这时候 this 的值又如何判断呢？</p>
+<p>因为此时不能再使用点运算符来进行调用，隐式绑定 this 已经不适用，我们只能显式绑定 this。</p>
+<p>即使用 call 来调用函数，同时使用 call 来指定调用时的上下文环境 (this 的值)</p>
+<figure class="highlight jsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="title function_">greet</span>(<span class="params"></span>) &#123;</span><br><span class="line">  <span class="title function_">alert</span>(<span class="string">`Hello, my name is <span class="subst">$&#123;<span class="variable language_">this</span>.name&#125;</span>`</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> user = &#123;</span><br><span class="line">  <span class="attr">name</span>: <span class="string">&quot;Tyler&quot;</span>,</span><br><span class="line">  <span class="attr">age</span>: <span class="number">27</span>,</span><br><span class="line">&#125;;</span><br><span class="line">greet.<span class="title function_">call</span>(user); <span class="comment">//Tyler</span></span><br></pre></td></tr></table></figure>
+
+<p>如果函数中含有参数，我们怎么在绑定 this 的同时传参呢？其实只需要将参数依次附在绑定的 this 之后即可。</p>
+<figure class="highlight jsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="title function_">greet</span>(<span class="params">lang1, lang2, lang3</span>) &#123;</span><br><span class="line">  <span class="title function_">alert</span>(</span><br><span class="line">    <span class="string">`Hello, my name is <span class="subst">$&#123;<span class="variable language_">this</span>.name&#125;</span> and I know <span class="subst">$&#123;lang1&#125;</span>, <span class="subst">$&#123;lang2&#125;</span>, and <span class="subst">$&#123;lang3&#125;</span>`</span></span><br><span class="line">  );</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> user = &#123;</span><br><span class="line">  <span class="attr">name</span>: <span class="string">&quot;Tyler&quot;</span>,</span><br><span class="line">  <span class="attr">age</span>: <span class="number">27</span>,</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> languages = [<span class="string">&quot;JavaScript&quot;</span>, <span class="string">&quot;Ruby&quot;</span>, <span class="string">&quot;Python&quot;</span>];</span><br><span class="line"></span><br><span class="line">greet.<span class="title function_">call</span>(user, languages[<span class="number">0</span>], languages[<span class="number">1</span>], languages[<span class="number">2</span>]);</span><br></pre></td></tr></table></figure>
+
+<p>但如果参数数量很多的话，将参数一个个传入是很麻烦的，如果可以使用解构赋值就好了（<code>…array</code>），但是 call 不支持结构赋值，但是 apply 支持，我们可以使用 apply 来快速传入多个参数。</p>
+<figure class="highlight jsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> languages = [<span class="string">&quot;JavaScript&quot;</span>, <span class="string">&quot;Ruby&quot;</span>, <span class="string">&quot;Python&quot;</span>];</span><br><span class="line"></span><br><span class="line"><span class="comment">// greet.call(user, languages[0], languages[1], languages[2])</span></span><br><span class="line">greet.<span class="title function_">apply</span>(user, languages);</span><br></pre></td></tr></table></figure>
+
+<p>call 和 apply 方法都会立即调用函数，如果我们不想立即调用，而想返回一个绑定了 this 和参数的函数，在我们需要时在调用，这就用到了 bind</p>
+<figure class="highlight jsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="title function_">greet</span>(<span class="params">lang1, lang2, lang3</span>) &#123;</span><br><span class="line">  <span class="title function_">alert</span>(</span><br><span class="line">    <span class="string">`Hello, my name is <span class="subst">$&#123;<span class="variable language_">this</span>.name&#125;</span> and I know <span class="subst">$&#123;lang1&#125;</span>, <span class="subst">$&#123;lang2&#125;</span>, and <span class="subst">$&#123;lang3&#125;</span>`</span></span><br><span class="line">  );</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> user = &#123;</span><br><span class="line">  <span class="attr">name</span>: <span class="string">&quot;Tyler&quot;</span>,</span><br><span class="line">  <span class="attr">age</span>: <span class="number">27</span>,</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> languages = [<span class="string">&quot;JavaScript&quot;</span>, <span class="string">&quot;Ruby&quot;</span>, <span class="string">&quot;Python&quot;</span>];</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> newFn = greet.<span class="title function_">bind</span>(user, languages[<span class="number">0</span>], languages[<span class="number">1</span>], languages[<span class="number">2</span>]);</span><br><span class="line"><span class="title function_">newFn</span>(); <span class="comment">// alerts &quot;Hello, my name is Tyler and I know JavaScript, Ruby, and Python&quot;</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="3-new-操作符调用构造函数→new-绑定"><a href="#3-new-操作符调用构造函数→new-绑定" class="headerlink" title="3.new 操作符调用构造函数→new 绑定"></a>3.<a target="_blank" rel="noopener" href="https://zh.javascript.info/constructor-new">new 操作符调用构造函数</a>→new 绑定</h2><h1 id="构造函数"><a href="#构造函数" class="headerlink" title="构造函数"></a><a target="_blank" rel="noopener" href="https://zh.javascript.info/constructor-new#gou-zao-han-shu">构造函数</a></h1><p>构造函数在技术上是常规函数。不过有两个约定：</p>
+<ol>
+<li>它们的命名以大写字母开头。</li>
+<li>它们只能由  <code>&quot;new&quot;</code>  操作符来执行。</li>
+</ol>
+<p>例如：</p>
+<figure class="highlight jsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="title function_">User</span>(<span class="params">name</span>) &#123;</span><br><span class="line">  <span class="variable language_">this</span>.<span class="property">name</span> = name;</span><br><span class="line">  <span class="variable language_">this</span>.<span class="property">isAdmin</span> = <span class="literal">false</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> user = <span class="keyword">new</span> <span class="title class_">User</span>(<span class="string">&quot;Jack&quot;</span>);</span><br><span class="line"></span><br><span class="line"><span class="title function_">alert</span>(user.<span class="property">name</span>); <span class="comment">// Jack</span></span><br><span class="line"><span class="title function_">alert</span>(user.<span class="property">isAdmin</span>); <span class="comment">// false</span></span><br></pre></td></tr></table></figure>
+
+<p>当一个函数被使用  <code>new</code>  操作符执行时，它按照以下步骤：</p>
+<ol>
+<li>一个新的空对象被创建并分配给  <code>this</code>。</li>
+<li>函数体执行。通常它会修改  <code>this</code>，为其添加新的属性。</li>
+<li>返回  <code>this</code>  的值。</li>
+</ol>
+<p>换句话说，<code>new User(...)</code>  做的就是类似的事情：</p>
+<p>.</p>
+<figure class="highlight jsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="title function_">User</span>(<span class="params">name</span>) &#123;</span><br><span class="line">  <span class="comment">// this = &#123;&#125;;（隐式创建）</span></span><br><span class="line"></span><br><span class="line">  <span class="comment">// 添加属性到 this</span></span><br><span class="line">  <span class="variable language_">this</span>.<span class="property">name</span> = name;</span><br><span class="line">  <span class="variable language_">this</span>.<span class="property">isAdmin</span> = <span class="literal">false</span>;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// return this;（隐式返回）</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>所以  <code>new User(&quot;Jack&quot;)</code>  的结果是相同的对象：</p>
+<figure class="highlight jsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> user = &#123;</span><br><span class="line">  <span class="attr">name</span>: <span class="string">&quot;Jack&quot;</span>,</span><br><span class="line">  <span class="attr">isAdmin</span>: <span class="literal">false</span>,</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>现在，如果我们想创建其他用户，我们可以调用  <code>new User(&quot;Ann&quot;)</code>，<code>new User(&quot;Alice&quot;)</code>  等。比每次都使用字面量创建要短得多，而且更易于阅读。</p>
+<p>这是构造器的主要目的 —— 实现可重用的对象创建代码。</p>
+<p>让我们再强调一遍 —— 从技术上讲，任何函数（除了箭头函数，它没有自己的  <code>this</code>）都可以用作构造器。即可以通过  <code>new</code>  来运行，它会执行上面的算法。“首字母大写”是一个共同的约定，以明确表示一个函数将被使用  <code>new</code>  来运行。</p>
+<h2 id="4-直接调用函数-func-→window-绑定"><a href="#4-直接调用函数-func-→window-绑定" class="headerlink" title="4.直接调用函数 func()→window 绑定"></a>4.直接调用函数 func()→window 绑定</h2><p>假如我们有下面这段代码</p>
+<figure class="highlight jsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="title function_">sayAge</span>(<span class="params"></span>) &#123;</span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">`My age is <span class="subst">$&#123;<span class="variable language_">this</span>.age&#125;</span>`</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> user = &#123;</span><br><span class="line">  <span class="attr">name</span>: <span class="string">&quot;Tyler&quot;</span>,</span><br><span class="line">  <span class="attr">age</span>: <span class="number">27</span>,</span><br><span class="line">&#125;;</span><br><span class="line"><span class="title function_">sayAge</span>(); <span class="comment">// My age is undefined</span></span><br></pre></td></tr></table></figure>
+
+<p>如前所述，如果你想用 <code>user</code> 做上下文调用 <code>sayAge</code>，你可以使用 <code>.call</code>、<code>.apply</code> 或 <code>.bind</code>。但如果我们没有用这些方法，而是直接和平时一样直接调用 <code>sayAge</code> 会发生什么呢？</p>
+<p>不出意外，你会得到 <code>My name is undefined</code>，因为 <code>this.age</code> 是 undefined。事情开始变得神奇了。实际上这是因为点的左侧没有任何东西，我们也没有用 <code>.call</code>、<code>.apply</code>、<code>.bind</code> 或者 <code>new</code> 关键字，JavaScript 会默认 <code>this</code> 指向 <code>window</code> 对象。这意味着如果我们向 <code>window</code> 对象添加 <code>age</code> 属性并再次调用 <code>sayAge</code> 方法，<code>this.age</code> 将不再是 undefined 并且变成 window 对象的 <code>age</code> 属性值。不相信？让我们运行这段代码</p>
+<figure class="highlight jsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable language_">window</span>.<span class="property">age</span> = <span class="number">27</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">sayAge</span>(<span class="params"></span>) &#123;</span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">`My age is <span class="subst">$&#123;<span class="variable language_">this</span>.age&#125;</span>`</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>非常神奇，不是吗？这就是第 4 条规则为什么是 <code>window 绑定</code> 的原因。如果其它规则都没满足，JavaScript 就会默认 <code>this</code> 指向 <code>window</code> 对象。</p>
+<hr>
+<blockquote>
+<p>在 ES5 添加的 严格模式 中，JavaScript 不会默认 this 指向 window 对象，而会正确地把 this 保持为 undefined。</p>
+</blockquote>
+<figure class="highlight jsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&#x27;use strict&#x27;</span><span class="variable language_">window</span>.<span class="property">age</span> = <span class="number">27</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">sayAge</span> (<span class="params"></span>) &#123;</span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">`My age is <span class="subst">$&#123;<span class="variable language_">this</span>.age&#125;</span>`</span>)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="title function_">sayAge</span>() <span class="comment">// TypeError: Cannot read property &#x27;age&#x27; of undefined</span></span><br></pre></td></tr></table></figure>
+
+<h1 id="箭头函数的-this"><a href="#箭头函数的-this" class="headerlink" title="箭头函数的 this"></a>箭头函数的 this</h1><p>待施工</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2024/09/18/article2/" rel="next" title="事件传播：捕获和冒泡">
+                <i class="fa fa-chevron-left"></i> 事件传播：捕获和冒泡
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name"></p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/%20%7C%7C%20archive">
+              
+                  <span class="site-state-item-count">4</span>
+                  <span class="site-state-item-name">posts</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%B8%A4%E4%B8%AA%E5%9F%BA%E7%9F%B3"><span class="nav-number">1.</span> <span class="nav-text">两个基石</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-JavaScript-%E4%B8%AD%E7%9A%84-this-%E6%98%AF%E5%9C%A8%E5%87%BD%E6%95%B0%E8%A2%AB%E8%B0%83%E7%94%A8%E6%97%B6%E7%A1%AE%E5%AE%9A%E7%9A%84%EF%BC%8C%E8%80%8C%E4%B8%8D%E6%98%AF%E5%9C%A8%E5%87%BD%E6%95%B0%E5%AE%9A%E4%B9%89%E6%97%B6%E5%9B%BA%E5%AE%9A%E7%9A%84%E3%80%82"><span class="nav-number">1.1.</span> <span class="nav-text">1.JavaScript 中的 this 是在函数被调用时确定的，而不是在函数定义时固定的。</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-%E5%87%BD%E6%95%B0%E6%98%AF%E4%B8%80%E7%A7%8D%E7%89%B9%E6%AE%8A%E7%9A%84%E5%AF%B9%E8%B1%A1%EF%BC%8C%E5%8F%AF%E4%BB%A5%E8%A2%AB%E8%B5%8B%E5%80%BC%EF%BC%8C%E4%BC%A0%E9%80%92%EF%BC%8C%E4%BD%BF%E7%94%A8"><span class="nav-number">1.2.</span> <span class="nav-text">2.函数是一种特殊的对象，可以被赋值，传递，使用</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%85%B7%E4%BD%93%E4%BE%8B%E5%AD%90"><span class="nav-number">2.</span> <span class="nav-text">具体例子</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%A6%82%E4%BD%95%E6%A0%B9%E6%8D%AE%E5%87%BD%E6%95%B0%E4%B8%8D%E5%90%8C%E8%B0%83%E7%94%A8%E6%96%B9%E5%BC%8F%E5%88%A4%E6%96%AD-this-%E7%9A%84%E5%80%BC%EF%BC%9F"><span class="nav-number">3.</span> <span class="nav-text">如何根据函数不同调用方式判断 this 的值？</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-%E7%82%B9%E8%BF%90%E7%AE%97%E7%AC%A6%E8%B0%83%E7%94%A8%E5%AF%B9%E8%B1%A1%E6%96%B9%E6%B3%95-obj-func-%E2%86%92-%E9%9A%90%E5%BC%8F%E7%BB%91%E5%AE%9A"><span class="nav-number">3.1.</span> <span class="nav-text">1.点运算符调用对象方法 obj.func()→ 隐式绑定</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-call-apply-bind-%E8%B0%83%E7%94%A8%E5%87%BD%E6%95%B0-%E2%86%92-%E6%98%BE%E5%BC%8F%E7%BB%91%E5%AE%9A"><span class="nav-number">3.2.</span> <span class="nav-text">2.call,apply,bind 调用函数 → 显式绑定</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-new-%E6%93%8D%E4%BD%9C%E7%AC%A6%E8%B0%83%E7%94%A8%E6%9E%84%E9%80%A0%E5%87%BD%E6%95%B0%E2%86%92new-%E7%BB%91%E5%AE%9A"><span class="nav-number">3.3.</span> <span class="nav-text">3.new 操作符调用构造函数→new 绑定</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%9E%84%E9%80%A0%E5%87%BD%E6%95%B0"><span class="nav-number">4.</span> <span class="nav-text">构造函数</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#4-%E7%9B%B4%E6%8E%A5%E8%B0%83%E7%94%A8%E5%87%BD%E6%95%B0-func-%E2%86%92window-%E7%BB%91%E5%AE%9A"><span class="nav-number">4.1.</span> <span class="nav-text">4.直接调用函数 func()→window 绑定</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%AE%AD%E5%A4%B4%E5%87%BD%E6%95%B0%E7%9A%84-this"><span class="nav-number">5.</span> <span class="nav-text">箭头函数的 this</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2024</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">John Doe</span>
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Muse</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
